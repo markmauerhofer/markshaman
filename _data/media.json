@@ -2,12 +2,20 @@
   "logo": "/images/logotransparentmitname-1-.png",
   "gallery": [
     {
+      "alignment": "top",
+      "image": "/images/9a1bfe58-56c7-4f66-a068-2e7b4fca89c0.jpg"
+    },
+    {
       "image": "/images/251011.jpg",
       "alignment": "top"
     },
     {
       "image": "/images/250906.jpg",
       "alignment": "top"
+    },
+    {
+      "alignment": "top",
+      "image": "/images/img_2865.jpeg"
     },
     {
       "image": "/images/251108.jpg",
@@ -24,14 +32,6 @@
     {
       "image": "/images/ds0324312.jpg",
       "alignment": "center"
-    },
-    {
-      "alignment": "top",
-      "image": "/images/img_2865.jpeg"
-    },
-    {
-      "alignment": "top",
-      "image": "/images/9a1bfe58-56c7-4f66-a068-2e7b4fca89c0.jpg"
     }
   ]
 }
