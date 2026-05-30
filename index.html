@@ -1541,7 +1541,7 @@ function submitForm(btn) {
 
 // ── LOAD CONTENT FROM JSON DATA FILES ──
 async function loadContent() {
-  const files = ['hero','geschichte','angebot','enkasy','testimonials','kontakt'];
+  const files = ['hero','geschichte','angebot','enkasy','testimonials','kontakt','media'];
   const data = {};
   await Promise.all(files.map(async f => {
     try {
@@ -1578,6 +1578,41 @@ function applyData(d) {
       if (el) el.innerHTML = d[key];
     }
   }
+
+  // Logo from media.json
+  if (d.logo) {
+    const img = document.getElementById('story-logo-img');
+    const txt = document.getElementById('story-logo-text');
+    const hint = document.getElementById('story-logo-hint');
+    if (img) { img.src = d.logo; img.style.display = 'block'; img.style.filter = 'none'; }
+    if (txt) txt.style.display = 'none';
+    if (hint) hint.style.display = 'none';
+  }
+
+  // Gallery from media.json
+  if (d.gallery && d.gallery.length > 0) {
+    const grid = document.getElementById('gallery-grid');
+    const dropZone = document.getElementById('gallery-drop-zone');
+    if (grid) {
+      grid.innerHTML = d.gallery.map((item, i) => {
+        const cls = i === 0 ? 'gallery-item wide' : (i === 3 ? 'gallery-item tall' : 'gallery-item');
+        return '<div class="' + cls + '" onclick="openLightboxCMS(' + i + ')">' +
+          '<img src="' + item.image + '" alt="' + (item.caption || 'Impression') + '" loading="lazy">' +
+          '<div class="gallery-item-overlay"></div>' +
+        '</div>';
+      }).join('');
+      if (dropZone) dropZone.style.display = 'none';
+      window._cmsGallery = d.gallery;
+    }
+  }
+}
+
+function openLightboxCMS(i) {
+  if (!window._cmsGallery) return;
+  window._cmsLightboxIndex = i;
+  document.getElementById('lightbox-img').src = window._cmsGallery[i].image;
+  document.getElementById('gallery-lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 loadContent();
