@@ -1562,7 +1562,14 @@ function applyData(d) {
   for (const [key, elId] of Object.entries(map)) {
     if (d[key] !== undefined) {
       const el = document.getElementById(elId);
-      if (el) el.innerHTML = d[key];
+      if (el) {
+        if (key === 'story_body') {
+          // Convert plain text paragraphs to HTML
+          el.innerHTML = d[key].split('\n\n').map(p => '<p>' + p + '</p>').join('');
+        } else {
+          el.innerHTML = d[key];
+        }
+      }
     }
   }
 
