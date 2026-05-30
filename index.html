@@ -497,6 +497,13 @@
     border: 2px dashed rgba(200,164,90,0.35);
     animation: spin-badge 30s linear infinite reverse;
   }
+  .enkasy-ring-spin {
+    position: absolute;
+    inset: 50px;
+    border-radius: 50%;
+    border: 2px dashed rgba(200,164,90,0.35);
+    animation: spin-badge 30s linear infinite reverse;
+  }
   .enkasy-center {
     text-align: center;
     z-index: 1;
@@ -1261,23 +1268,23 @@
     <div class="enkasy-grid">
       <div class="enkasy-visual fade-up">
         <div class="enkasy-circle">
+          <div class="enkasy-ring-spin"></div>
           <div class="enkasy-center">
             <div class="enkasy-word" id="cms-enkasy-title">EnKaSy</div>
             <div class="enkasy-sub-word" id="cms-enkasy-subtitle">Standort&shy;bestimmung</div>
           </div>
-          <!-- Dots exactly on outer circle border: circle=340px r=170px, dot=52px half=26px -->
-          <div style="position:absolute; top:-27px; left:50%; transform:translateX(-50%);">
-            <div class="enkasy-dot" id="cms-dot1-el">En</div>
-          </div>
-          <div style="position:absolute; right:-27px; top:50%; transform:translateY(-50%);">
-            <div class="enkasy-dot" id="cms-dot2-el">Ka</div>
-          </div>
-          <div style="position:absolute; bottom:-27px; left:50%; transform:translateX(-50%);">
-            <div class="enkasy-dot" id="cms-dot3-el">Sy</div>
-          </div>
-          <div style="position:absolute; left:-27px; top:50%; transform:translateY(-50%);">
-            <div class="enkasy-dot" id="cms-dot4-el">a</div>
-          </div>
+        </div>
+        <div style="position:absolute; top:4px; left:50%; transform:translateX(-50%);">
+          <div class="enkasy-dot" id="cms-dot1-el">En</div>
+        </div>
+        <div style="position:absolute; right:4px; top:50%; transform:translateY(-50%);">
+          <div class="enkasy-dot" id="cms-dot2-el">Ka</div>
+        </div>
+        <div style="position:absolute; bottom:4px; left:50%; transform:translateX(-50%);">
+          <div class="enkasy-dot" id="cms-dot3-el">Sy</div>
+        </div>
+        <div style="position:absolute; left:4px; top:50%; transform:translateY(-50%);">
+          <div class="enkasy-dot" id="cms-dot4-el">a</div>
         </div>
       </div>
       <div class="enkasy-content fade-up">
