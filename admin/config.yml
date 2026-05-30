@@ -1,0 +1,87 @@
+backend:
+  name: github
+  repo: DEIN-GITHUB-USERNAME/markshaman
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+locale: de
+
+collections:
+  - name: "einstellungen"
+    label: "Website-Inhalte"
+    files:
+
+      - name: "hero"
+        label: "Hero – Startbereich"
+        file: "_data/hero.json"
+        fields:
+          - { label: "Eyebrow-Text", name: "eyebrow", widget: "string", default: "Bühne frei für das Unerwartete" }
+          - { label: "Titel – kursiver Teil", name: "hero_em", widget: "string", default: "Die etwas andere" }
+          - { label: "Titel – fetter Teil", name: "hero_strong", widget: "string", default: "Standortbestimmung" }
+          - { label: "Untertitel", name: "hero_sub", widget: "text", default: "80 % Show. 20 % Empowerment. 100 % Entertainment." }
+          - { label: "Kennzahl 1 – Wert", name: "stat1_val", widget: "string", default: "80%" }
+          - { label: "Kennzahl 1 – Label", name: "stat1_label", widget: "string", default: "Pure Show" }
+          - { label: "Kennzahl 2 – Wert", name: "stat2_val", widget: "string", default: "20%" }
+          - { label: "Kennzahl 2 – Label", name: "stat2_label", widget: "string", default: "Empowerment" }
+          - { label: "Kennzahl 3 – Wert", name: "stat3_val", widget: "string", default: "100%" }
+          - { label: "Kennzahl 3 – Label", name: "stat3_label", widget: "string", default: "Entertainment" }
+
+      - name: "geschichte"
+        label: "Geschichte"
+        file: "_data/geschichte.json"
+        fields:
+          - { label: "Haupttext", name: "story_body", widget: "markdown" }
+          - { label: "Zitat", name: "story_quote", widget: "text", default: "„Der Weg ist nicht zwingend das Ziel..."" }
+
+      - name: "angebot"
+        label: "Angebot"
+        file: "_data/angebot.json"
+        fields:
+          - { label: "Einleitungstext", name: "angebot_desc", widget: "text" }
+          - { label: "Karte 1 – Titel", name: "card1_title", widget: "string", default: "Geburtstage & Hochzeiten" }
+          - { label: "Karte 1 – Text", name: "card1_text", widget: "text" }
+          - { label: "Karte 2 – Titel", name: "card2_title", widget: "string", default: "Firmenjubiläum & Events" }
+          - { label: "Karte 2 – Text", name: "card2_text", widget: "text" }
+          - { label: "Karte 3 – Titel", name: "card3_title", widget: "string", default: "Irgend etwas dazwischen" }
+          - { label: "Karte 3 – Text", name: "card3_text", widget: "text" }
+
+      - name: "enkasy"
+        label: "EnKaaSy – Methode"
+        file: "_data/enkasy.json"
+        fields:
+          - { label: "Sektions-Titel", name: "enkasy_heading", widget: "string" }
+          - { label: "Kreis – Hauptwort", name: "enkasy_title", widget: "string", default: "EnKaaSy" }
+          - { label: "Kreis – Untertitel", name: "enkasy_subtitle", widget: "string", default: "Standortbestimmung" }
+          - { label: "Kreis – Oben", name: "dot1", widget: "string", default: "En" }
+          - { label: "Kreis – Rechts", name: "dot2", widget: "string", default: "Ka" }
+          - { label: "Kreis – Unten", name: "dot3", widget: "string", default: "Sy" }
+          - { label: "Kreis – Links", name: "dot4", widget: "string", default: "a" }
+          - { label: "Beschreibungstext", name: "enkasy_body", widget: "text" }
+          - { label: "Karte 1", name: "step1", widget: "text" }
+          - { label: "Karte 2", name: "step2", widget: "text" }
+          - { label: "Karte 3", name: "step3", widget: "text" }
+          - { label: "Karte 4", name: "step4", widget: "text" }
+
+      - name: "testimonials"
+        label: "Stimmen / Testimonials"
+        file: "_data/testimonials.json"
+        fields:
+          - { label: "Testimonial 1 – Text", name: "t1_text", widget: "text" }
+          - { label: "Testimonial 1 – Name", name: "t1_author", widget: "string" }
+          - { label: "Testimonial 1 – Rolle", name: "t1_role", widget: "string" }
+          - { label: "Testimonial 2 – Text", name: "t2_text", widget: "text" }
+          - { label: "Testimonial 2 – Name", name: "t2_author", widget: "string" }
+          - { label: "Testimonial 2 – Rolle", name: "t2_role", widget: "string" }
+          - { label: "Testimonial 3 – Text", name: "t3_text", widget: "text" }
+          - { label: "Testimonial 3 – Name", name: "t3_author", widget: "string" }
+          - { label: "Testimonial 3 – Rolle", name: "t3_role", widget: "string" }
+
+      - name: "kontakt"
+        label: "Kontakt"
+        file: "_data/kontakt.json"
+        fields:
+          - { label: "Einleitungstext", name: "kontakt_body", widget: "text" }
+          - { label: "Standort", name: "location", widget: "string" }
+          - { label: "E-Mail", name: "email", widget: "string" }
