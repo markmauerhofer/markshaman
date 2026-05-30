@@ -1413,34 +1413,42 @@
         </div>
       </div>
       <div class="kontakt-form fade-up">
-        <div class="form-group">
-          <label class="form-label">Name</label>
-          <input class="form-input" type="text" placeholder="Dein Name">
+        <form name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="kontakt-form">
+          <input type="hidden" name="form-name" value="kontakt">
+          <p style="display:none;"><input name="bot-field"></p>
+          <div class="form-group">
+            <label class="form-label">Name</label>
+            <input class="form-input" type="text" name="name" placeholder="Dein Name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">E-Mail</label>
+            <input class="form-input" type="email" name="email" placeholder="deine@email.ch" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Art des Anlasses</label>
+            <select class="form-select" name="anlass">
+              <option value="">Bitte wählen…</option>
+              <option>Geburtstag</option>
+              <option>Hochzeit</option>
+              <option>Firmenjubiläum</option>
+              <option>Sommerevent / Kick-off</option>
+              <option>Anderes</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Datum / Zeitraum</label>
+            <input class="form-input" type="text" name="datum" placeholder="z.B. August 2025">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nachricht</label>
+            <textarea class="form-textarea" name="nachricht" placeholder="Erzähl mir von deinem Anlass — Grösse, Ort, was du dir vorstellst…"></textarea>
+          </div>
+          <button type="submit" class="form-submit">Anfrage absenden</button>
+        </form>
+        <div id="form-success" style="display:none; padding:24px; border:1px solid rgba(200,164,90,0.3); text-align:center;">
+          <div style="font-family:var(--font-display); font-size:22px; font-style:italic; color:var(--cream); margin-bottom:8px;">Danke für deine Anfrage!</div>
+          <div style="font-size:13px; font-weight:300; color:var(--cream60);">Ich melde mich so bald wie möglich bei dir.</div>
         </div>
-        <div class="form-group">
-          <label class="form-label">E-Mail</label>
-          <input class="form-input" type="email" placeholder="deine@email.ch">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Art des Anlasses</label>
-          <select class="form-select">
-            <option value="">Bitte wählen…</option>
-            <option>Geburtstag</option>
-            <option>Hochzeit</option>
-            <option>Firmenjubiläum</option>
-            <option>Sommerevent / Kick-off</option>
-            <option>Anderes</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Datum / Zeitraum</label>
-          <input class="form-input" type="text" placeholder="z.B. August 2025">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nachricht</label>
-          <textarea class="form-textarea" placeholder="Erzähl mir von deinem Anlass — Grösse, Ort, was du dir vorstellst…"></textarea>
-        </div>
-        <button class="form-submit" onclick="submitForm(this)">Anfrage absenden</button>
       </div>
     </div>
   </div>
@@ -1525,6 +1533,24 @@ function submitForm(btn) {
   btn.style.background = '#2ecc71';
   btn.style.color = '#fff';
   setTimeout(() => { btn.textContent = 'Anfrage absenden'; btn.style.background = ''; btn.style.color = ''; }, 3000);
+}
+
+// Netlify Forms AJAX submission
+const kontaktForm = document.getElementById('kontakt-form');
+if (kontaktForm) {
+  kontaktForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString()
+    }).then(() => {
+      form.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }).catch(() => {
+      alert('Es gab einen Fehler. Bitte versuche es nochmals oder schreib direkt an info@markshaman.ch');
+    });
+  });
 }
 
 // ── LOAD CONTENT FROM JSON DATA FILES ──
