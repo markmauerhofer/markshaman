@@ -2,10 +2,6 @@
   "logo": "/images/logotransparentmitname-1-.png",
   "gallery": [
     {
-      "alignment": "center",
-      "image": "/images/9a1bfe58-56c7-4f66-a068-2e7b4fca89c0.jpg"
-    },
-    {
       "image": "/images/251011.jpg",
       "alignment": "top"
     },
