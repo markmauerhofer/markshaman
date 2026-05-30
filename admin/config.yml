@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: markmauerhofer/markshaman
+  repo: DEIN-GITHUB-USERNAME/markshaman
   branch: main
 
 media_folder: "images"
@@ -110,3 +110,5 @@ collections:
                   - { label: "Links", value: "left" }
                   - { label: "Zentriert", value: "center" }
                   - { label: "Rechts", value: "right" }
+                  - { label: "Von oben", value: "top" }
+                  - { label: "Von unten", value: "bottom" }
