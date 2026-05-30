@@ -1596,8 +1596,10 @@ function applyData(d) {
     if (grid) {
       grid.innerHTML = d.gallery.map((item, i) => {
         const cls = i === 0 ? 'gallery-item wide' : (i === 3 ? 'gallery-item tall' : 'gallery-item');
+        const align = item.alignment || 'center';
+        const objPos = align === 'left' ? 'left center' : align === 'right' ? 'right center' : 'center center';
         return '<div class="' + cls + '" onclick="openLightboxCMS(' + i + ')">' +
-          '<img src="' + item.image + '" alt="' + (item.caption || 'Impression') + '" loading="lazy">' +
+          '<img src="' + item.image + '" alt="' + (item.caption || 'Impression') + '" loading="lazy" style="object-position:' + objPos + '">' +
           '<div class="gallery-item-overlay"></div>' +
         '</div>';
       }).join('');
