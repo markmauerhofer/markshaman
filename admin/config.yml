@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: DEIN-GITHUB-USERNAME/markmauerhofer
+  repo: markmauerhofer/markshaman
   branch: main
  
 media_folder: "images"
