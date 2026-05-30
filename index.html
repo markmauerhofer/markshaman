@@ -1324,8 +1324,8 @@
 </section>
 
 <!-- ── LIGHTBOX ── -->
-<div class="gallery-lightbox" id="gallery-lightbox" onclick="closeLightbox(event)">
-  <button class="gallery-lightbox-close" onclick="closeLightbox()">✕</button>
+<div class="gallery-lightbox" id="gallery-lightbox" onclick="if(event.target===this){this.classList.remove('open');document.body.style.overflow=''}">
+  <button class="gallery-lightbox-close" onclick="document.getElementById('gallery-lightbox').classList.remove('open'); document.body.style.overflow='';">✕</button>
   <button class="gallery-lightbox-nav gallery-lightbox-prev" onclick="lightboxNav(-1)">‹</button>
   <img id="lightbox-img" src="" alt="Impression">
   <button class="gallery-lightbox-nav gallery-lightbox-next" onclick="lightboxNav(1)">›</button>
@@ -1591,7 +1591,8 @@ function applyData(d) {
       grid.innerHTML = d.gallery.map((item, i) => {
         const cls = i === 0 ? 'gallery-item wide' : (i === 3 ? 'gallery-item tall' : 'gallery-item');
         const align = item.alignment || 'center';
-        const objPos = align === 'left' ? 'left center' : align === 'right' ? 'right center' : 'center center';
+        const posMap = { left: 'left center', right: 'right center', top: 'center top', bottom: 'center bottom', center: 'center center' };
+        const objPos = posMap[align] || 'center center';
         return '<div class="' + cls + '" onclick="openLightboxCMS(' + i + ')">' +
           '<img src="' + item.image + '" alt="' + (item.caption || 'Impression') + '" loading="lazy" style="object-position:' + objPos + '">' +
           '<div class="gallery-item-overlay"></div>' +
@@ -1610,6 +1611,21 @@ function openLightboxCMS(i) {
   document.getElementById('gallery-lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+
+function closeLightbox(e) {
+  if (e && e.target !== document.getElementById('gallery-lightbox') &&
+      !e.target.classList.contains('gallery-lightbox-close')) return;
+  document.getElementById('gallery-lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('gallery-lightbox');
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'ArrowRight') lightboxNav(1);
+  if (e.key === 'ArrowLeft') lightboxNav(-1);
+  if (e.key === 'Escape') { lb.classList.remove('open'); document.body.style.overflow = ''; }
+});
 
 loadContent();
 </script>
