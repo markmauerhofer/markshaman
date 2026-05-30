@@ -2,17 +2,17 @@ backend:
   name: github
   repo: DEIN-GITHUB-USERNAME/markshaman
   branch: main
-
+ 
 media_folder: "images"
 public_folder: "/images"
-
+ 
 locale: de
-
+ 
 collections:
   - name: "einstellungen"
     label: "Website-Inhalte"
     files:
-
+ 
       - name: "hero"
         label: "Hero – Startbereich"
         file: "_data/hero.json"
@@ -27,14 +27,14 @@ collections:
           - { label: "Kennzahl 2 – Label", name: "stat2_label", widget: "string", default: "Empowerment" }
           - { label: "Kennzahl 3 – Wert", name: "stat3_val", widget: "string", default: "100%" }
           - { label: "Kennzahl 3 – Label", name: "stat3_label", widget: "string", default: "Entertainment" }
-
+ 
       - name: "geschichte"
         label: "Geschichte"
         file: "_data/geschichte.json"
         fields:
           - { label: "Haupttext", name: "story_body", widget: "markdown" }
-          - { label: "Zitat", name: "story_quote", widget: "text", default: "„Der Weg ist nicht zwingend das Ziel..."" }
-
+          - { label: "Zitat", name: "story_quote", widget: "text" }
+ 
       - name: "angebot"
         label: "Angebot"
         file: "_data/angebot.json"
@@ -46,7 +46,7 @@ collections:
           - { label: "Karte 2 – Text", name: "card2_text", widget: "text" }
           - { label: "Karte 3 – Titel", name: "card3_title", widget: "string", default: "Irgend etwas dazwischen" }
           - { label: "Karte 3 – Text", name: "card3_text", widget: "text" }
-
+ 
       - name: "enkasy"
         label: "EnKaaSy – Methode"
         file: "_data/enkasy.json"
@@ -63,7 +63,7 @@ collections:
           - { label: "Karte 2", name: "step2", widget: "text" }
           - { label: "Karte 3", name: "step3", widget: "text" }
           - { label: "Karte 4", name: "step4", widget: "text" }
-
+ 
       - name: "testimonials"
         label: "Stimmen / Testimonials"
         file: "_data/testimonials.json"
@@ -77,7 +77,7 @@ collections:
           - { label: "Testimonial 3 – Text", name: "t3_text", widget: "text" }
           - { label: "Testimonial 3 – Name", name: "t3_author", widget: "string" }
           - { label: "Testimonial 3 – Rolle", name: "t3_role", widget: "string" }
-
+ 
       - name: "kontakt"
         label: "Kontakt"
         file: "_data/kontakt.json"
