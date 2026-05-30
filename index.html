@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mark Shaman – Energetische Standortbestimmung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080807;
+    --bg2: #0f0f0c;
+    --bg3: #151510;
+    --cream: #f0ece2;
+    --cream60: rgba(240,236,226,0.6);
+    --cream30: rgba(240,236,226,0.3);
+    --cream10: rgba(240,236,226,0.08);
+    --gold: #c8a45a;
+    --gold2: #e2be82;
+    --red: #c0392b;
+    --red2: #e74c3c;
+    --border: rgba(240,236,226,0.1);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Outfit', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--cream);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── CURSOR ── */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, opacity 0.2s;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(200,164,90,0.4);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s cubic-bezier(.25,.46,.45,.94), opacity 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: linear-gradient(to bottom, rgba(8,8,7,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(0px);
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(8,8,7,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 48px;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream60);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-cta {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 24px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--bg); }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .nav-hamburger span { display: block; width: 24px; height: 1px; background: var(--cream); transition: all 0.3s; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 64px 80px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 5.5vw, 80px);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--gold2);
+  }
+  .hero-title strong {
+    font-weight: 700;
+    display: block;
+  }
+  .hero-sub {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--cream60);
+    max-width: 360px;
+    margin: 28px 0 44px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 16px 36px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--cream60);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .btn-ghost:hover { color: var(--cream); }
+  .btn-ghost svg { transition: transform 0.2s; }
+  .btn-ghost:hover svg { transform: translateX(4px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .hero-stat-val {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-stat-label {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream30);
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 120px;
+    background: linear-gradient(to right, var(--bg), transparent);
+    z-index: 2;
+  }
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 200px;
+    background: linear-gradient(to top, var(--bg), transparent);
+    z-index: 2;
+  }
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: grayscale(20%) contrast(1.05);
+  }
+  .hero-badge {
+    position: absolute;
+    bottom: 60px;
+    right: 40px;
+    z-index: 5;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bg);
+    line-height: 1.3;
+    padding: 16px;
+    animation: spin-badge 20s linear infinite;
+    letter-spacing: 0.05em;
+  }
+  @keyframes spin-badge {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { position: relative; }
+  .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--cream);
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--gold2);
+  }
+
+  /* ── ABOUT / STORY ── */
+  #story {
+    padding: 120px 0;
+    background: var(--bg2);
+  }
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .story-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .story-img-main {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+  .story-img-main img,
+  .story-img-sm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(15%) contrast(1.05);
+    transition: transform 0.6s ease, filter 0.4s;
+  }
+  .story-img-main:hover img,
+  .story-img-sm:hover img { transform: scale(1.03); filter: grayscale(0%) contrast(1); }
+  .story-img-sm { aspect-ratio: 3/4; overflow: hidden; }
+  .story-content { padding-top: 20px; }
+  .story-body {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--cream60);
+    margin: 28px 0 32px;
+  }
+  .story-body p + p { margin-top: 16px; }
+  .story-highlight {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--cream);
+    border-left: 2px solid var(--gold);
+    padding-left: 24px;
+    margin: 32px 0;
+    line-height: 1.5;
+  }
+
+  /* ── ANGEBOT ── */
+  #angebot {
+    padding: 120px 0;
+    background: var(--bg);
+  }
+  .angebot-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 72px;
+  }
+  .angebot-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--cream60);
+    margin-top: 28px;
+  }
+  .angebot-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .angebot-card {
+    background: var(--bg3);
+    padding: 40px 32px;
+    border-top: 2px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: default;
+  }
+  .angebot-card:hover { border-top-color: var(--gold); background: #1a1a14; }
+  .angebot-card.featured {
+    background: rgba(200,164,90,0.08);
+    border-top-color: var(--gold);
+  }
+  .card-num {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 200;
+    color: rgba(200,164,90,0.2);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .card-icon { font-size: 28px; margin-bottom: 20px; }
+  .card-label {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .card-text {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--cream60);
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 20px;
+  }
+  .card-tag {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    color: var(--cream30);
+  }
+
+  /* ── ENKASY ── */
+  #enkasy {
+    padding: 120px 0;
+    background: var(--bg2);
+    overflow: hidden;
+  }
+  .enkasy-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .enkasy-visual {
+    position: relative;
+  }
+  .enkasy-circle {
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,164,90,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto;
+  }
+  .enkasy-circle::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,164,90,0.1);
+  }
+  .enkasy-circle::after {
+    content: '';
+    position: absolute;
+    inset: 50px;
+    border-radius: 50%;
+    border: 1px dashed rgba(200,164,90,0.15);
+    animation: spin-badge 30s linear infinite reverse;
+  }
+  .enkasy-center {
+    text-align: center;
+    z-index: 1;
+  }
+  .enkasy-word {
+    font-family: var(--font-display);
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .enkasy-sub-word {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream30);
+    margin-top: 8px;
+  }
+  .enkasy-orbital {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .enkasy-dot {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid rgba(200,164,90,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold);
+    transform-origin: center;
+  }
+  .enkasy-content { }
+  .enkasy-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 28px;
+  }
+  .enkasy-card {
+    background: rgba(240,236,226,0.04);
+    border: 0.5px solid rgba(200,164,90,0.2);
+    border-left: 2px solid rgba(200,164,90,0.5);
+    padding: 18px 20px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .enkasy-card:hover {
+    background: rgba(200,164,90,0.06);
+    border-left-color: var(--gold);
+  }
+  .enkasy-card-num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 200;
+    color: rgba(200,164,90,0.35);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .enkasy-card-text {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--cream60);
+  }
+  .enkasy-card-text strong {
+    font-weight: 400;
+    color: var(--cream);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+  .enkasy-body {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--cream60);
+    margin: 24px 0 36px;
+  }
+  .enkasy-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .enkasy-step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--gold);
+    flex-shrink: 0;
+    width: 28px;
+    padding-top: 2px;
+  }
+  .step-text {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--cream60);
+  }
+  .step-text strong {
+    font-weight: 400;
+    color: var(--cream);
+  }
+
+  /* ── VIDEO ── */
+  #video-section {
+    padding: 100px 0;
+    background: var(--bg);
+    text-align: center;
+  }
+  .video-wrapper {
+    position: relative;
+    max-width: 480px;
+    margin: 48px auto 0;
+    aspect-ratio: 9/16;
+    background: var(--bg3);
+    overflow: hidden;
+  }
+  .video-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  .video-frame {
+    position: absolute;
+    inset: -1px;
+    border: 1px solid rgba(200,164,90,0.3);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ── TESTIMONIAL STRIP ── */
+  #testimonials {
+    padding: 100px 0;
+    background: var(--bg2);
+    overflow: hidden;
+  }
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 56px;
+  }
+  .testimonial-item {
+    background: var(--bg3);
+    padding: 40px 32px;
+  }
+  .testimonial-quote {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 0.8;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+  .testimonial-text {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .testimonial-author {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .testimonial-role {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--cream30);
+    margin-top: 4px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── KONTAKT ── */
+  #kontakt {
+    padding: 120px 0;
+    background: var(--bg);
+  }
+  .kontakt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .kontakt-info { padding-top: 20px; }
+  .kontakt-body {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--cream60);
+    margin: 24px 0 40px;
+  }
+  .kontakt-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .kontakt-detail-icon {
+    font-size: 18px;
+    margin-top: 2px;
+    opacity: 0.6;
+  }
+  .kontakt-detail-text {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--cream60);
+  }
+  .kontakt-detail-label {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .kontakt-social {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cream60);
+    text-decoration: none;
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .social-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .kontakt-form { }
+  .form-group { margin-bottom: 20px; }
+  .form-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cream60);
+    margin-bottom: 8px;
+  }
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 300;
+    padding: 14px 18px;
+    transition: border-color 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus { border-color: var(--gold); }
+  .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c8a45a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 18px center; padding-right: 44px; cursor: pointer; }
+  .form-select option { background: #151510; }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .form-submit {
+    width: 100%;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 18px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--gold2); }
+
+  /* ── FOOTER ── */
+  .legal-block {
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .legal-block:last-of-type { border-bottom: none; }
+  .legal-heading {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .legal-text {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--cream60);
+    margin-bottom: 14px;
+  }
+  footer {
+    background: #050504;
+    border-top: 1px solid var(--border);
+    padding: 48px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--cream);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream30);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--cream30);
+    letter-spacing: 0.06em;
+  }
+  .cms-note {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--cream30);
+    line-height: 1.6;
+    margin-top: 20px;
+    padding: 12px;
+    border: 1px solid var(--border);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    nav.scrolled { padding: 12px 24px; }
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .nav-hamburger { display: flex; }
+
+    #hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 100px 24px 48px; }
+    .hero-right { height: 50vw; min-height: 300px; }
+    .hero-right::before { display: none; }
+    .hero-stats { gap: 24px; }
+
+    .story-grid,
+    .angebot-intro,
+    .enkasy-grid,
+    .kontakt-grid { grid-template-columns: 1fr; gap: 40px; }
+    .angebot-cards { grid-template-columns: 1fr; }
+    .testimonial-grid { grid-template-columns: 1fr; }
+
+    .section-inner { padding: 0 24px; }
+    #story, #angebot, #enkasy, #kontakt { padding: 72px 0; }
+
+    .enkasy-circle { width: 260px; height: 260px; }
+    .enkasy-word { font-size: 38px; }
+
+    #cms-panel { width: 100vw; right: -100vw; }
+    .legal-block {
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .legal-block:last-of-type { border-bottom: none; }
+  .legal-heading {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .legal-text {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--cream60);
+    margin-bottom: 14px;
+  }
+  footer { padding: 32px 24px; }
+    .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .footer-links { flex-wrap: wrap; gap: 16px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* mobile nav drawer */
+  .nav-drawer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(8,8,7,0.98);
+    z-index: 90;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--cream);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-drawer a:hover { color: var(--gold); }
+
+  /* ── IMPRESSIONEN ── */
+  #impressionen {
+    padding: 120px 0;
+    background: var(--bg);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    margin-top: 56px;
+  }
+  .gallery-item {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--bg3);
+    cursor: pointer;
+  }
+  .gallery-item.wide { grid-column: span 2; aspect-ratio: 16/7; }
+  .gallery-item.tall { grid-row: span 2; aspect-ratio: auto; }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(15%) contrast(1.05);
+    transition: transform 0.6s ease, filter 0.4s;
+  }
+  .gallery-item:hover img { transform: scale(1.05); filter: grayscale(0%) contrast(1.05); }
+  .gallery-item-overlay {
+    position: absolute; inset: 0;
+    background: rgba(8,8,7,0);
+    transition: background 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gallery-item:hover .gallery-item-overlay { background: rgba(8,8,7,0.3); }
+  .gallery-item-delete {
+    position: absolute; top: 10px; right: 10px;
+    width: 32px; height: 32px;
+    background: rgba(192,57,43,0.85);
+    border: none; border-radius: 50%;
+    color: #fff; font-size: 14px;
+    cursor: pointer; opacity: 0;
+    transition: opacity 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 5;
+  }
+  .gallery-item:hover .gallery-item-delete { opacity: 1; }
+  .gallery-empty {
+    grid-column: span 3;
+    padding: 64px 32px;
+    text-align: center;
+    border: 1px dashed rgba(200,164,90,0.2);
+    color: var(--cream30);
+    font-size: 14px; font-weight: 300; letter-spacing: 0.06em;
+  }
+  .gallery-empty svg { margin-bottom: 16px; opacity: 0.3; }
+  .gallery-upload-zone {
+    border: 1px dashed rgba(200,164,90,0.3);
+    padding: 36px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-top: 16px;
+  }
+  .gallery-upload-zone:hover {
+    border-color: var(--gold);
+    background: rgba(200,164,90,0.04);
+  }
+  .gallery-upload-zone.drag-over {
+    border-color: var(--gold);
+    background: rgba(200,164,90,0.08);
+  }
+  .gallery-upload-icon { font-size: 32px; margin-bottom: 12px; opacity: 0.5; }
+  .gallery-upload-label {
+    font-size: 13px; font-weight: 300; color: var(--cream60);
+    letter-spacing: 0.06em;
+  }
+  .gallery-upload-label span { color: var(--gold); }
+  .gallery-upload-hint {
+    font-size: 11px; font-weight: 300; color: var(--cream30);
+    letter-spacing: 0.06em; margin-top: 6px;
+  }
+  .gallery-lightbox {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(8,8,7,0.95);
+    display: none; align-items: center; justify-content: center;
+    padding: 40px;
+  }
+  .gallery-lightbox.open { display: flex; }
+  .gallery-lightbox img {
+    max-width: 90vw; max-height: 88vh;
+    object-fit: contain;
+  }
+  .gallery-lightbox-close {
+    position: absolute; top: 24px; right: 24px;
+    background: none; border: 1px solid rgba(240,236,226,0.2);
+    color: var(--cream60); font-size: 22px;
+    width: 44px; height: 44px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .gallery-lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+  .gallery-lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: none; border: 1px solid rgba(240,236,226,0.2);
+    color: var(--cream60); font-size: 20px;
+    width: 48px; height: 48px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .gallery-lightbox-nav:hover { border-color: var(--gold); color: var(--gold); }
+  .gallery-lightbox-prev { left: 24px; }
+  .gallery-lightbox-next { right: 24px; }
+  .gallery-count {
+    font-size: 11px; font-weight: 300; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--cream30);
+    margin-top: 16px;
+  }
+  @media (max-width: 900px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-item.wide { grid-column: span 2; }
+    .gallery-empty { grid-column: span 2; }
+  }
+
+</style>
+
+  <!-- Netlify Identity für CMS-Login -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- ── MOBILE NAV DRAWER ── -->
+<div class="nav-drawer" id="nav-drawer">
+  <a href="#story" onclick="closeDrawer()">Geschichte</a>
+  <a href="#angebot" onclick="closeDrawer()">Angebot</a>
+  <a href="#enkasy" onclick="closeDrawer()">EnKaaSy</a>
+  <a href="#impressionen" onclick="closeDrawer()">Impressionen</a>
+  <a href="#kontakt" onclick="closeDrawer()">Kontakt</a>
+</div>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">Mark <span>Shaman</span></a>
+  <ul class="nav-links">
+    <li><a href="#story">Geschichte</a></li>
+    <li><a href="#angebot">Angebot</a></li>
+    <li><a href="#enkasy">EnKaaSy</a></li>
+    <li><a href="#impressionen">Impressionen</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <a class="nav-cta" href="#kontakt">Buchung anfragen</a>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleDrawer()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow" id="cms-eyebrow">Bühne frei für das Unerwartete</div>
+    <h1 class="hero-title">
+      <em id="cms-hero-em">Die etwas andere</em>
+      <strong id="cms-hero-strong">Standort&shy;bestimmung</strong>
+    </h1>
+    <p class="hero-sub" id="cms-hero-sub">80 % Show. 20 % Empowerment. 100 % Entertainment — für private Feste und Firmenanlässe, die mehr hinterlassen als eine gute Erinnerung.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#kontakt">Jetzt anfragen</a>
+      <a class="btn-ghost" href="#story">
+        Wer ist Mark Shaman?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2"/></svg>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val" id="cms-stat1-val">80%</div>
+        <div class="hero-stat-label" id="cms-stat1-label">Pure Show</div>
+      </div>
+      <div>
+        <div class="hero-stat-val" id="cms-stat2-val">20%</div>
+        <div class="hero-stat-label" id="cms-stat2-label">Empowerment</div>
+      </div>
+      <div>
+        <div class="hero-stat-val" id="cms-stat3-val">100%</div>
+        <div class="hero-stat-label" id="cms-stat3-label">Entertainment</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-img" src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman auf der Bühne">
+    <div class="hero-badge">Goldene<br>Poker&shy;karte<br>2026</div>
+  </div>
+</section>
+
+<!-- ── STORY ── -->
+<section id="story">
+  <div class="section-inner">
+    <div class="story-grid">
+      <div class="story-images fade-up">
+        <div class="story-img-main">
+          <img src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/a076a0b2-c653-4612-8957-04e566c18fea/klim-musalimov-8wQbq0jmiIw-unsplash.jpg" alt="Bühnenauftritt">
+        </div>
+        <div class="story-img-sm">
+          <img src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman Portrait">
+        </div>
+        <div class="story-img-sm" style="background: var(--bg2); display: flex; align-items: center; justify-content: center; position:relative; cursor:pointer;" onclick="document.getElementById('story-logo-input').click()" title="Logo hochladen">
+          <input type="file" id="story-logo-input" accept="image/*" style="display:none;" onchange="handleStoryLogoUpload(this)">
+          <div style="text-align:center; padding:20px;" id="story-logo-container">
+            <img id="story-logo-img" src="" alt="Mark Shaman Logo" style="max-width:260px; max-height:210px; display:none; filter:invert(1);">
+            <div id="story-logo-text">
+              <div style="font-family:var(--font-display); font-size:64px; font-weight:600; color:var(--cream);">MS</div>
+              <div style="font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-top:8px;">seit 1973</div>
+            </div>
+            <div id="story-logo-hint" style="position:absolute;bottom:10px;left:0;right:0;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,164,90,0.5);">↑ Logo hochladen</div>
+          </div>
+        </div>
+      </div>
+      <div class="story-content fade-up">
+        <div class="section-eyebrow">Die Geschichte</div>
+        <h2 class="section-title">Vom <em>Asphalt&shy;flüsterer</em> zum tanzenden Regenwald</h2>
+        <div class="story-body" id="cms-story-body">
+          <p>1973 geboren, in der Schweiz aufgewachsen, mit 25 Jahren ungeplant in die Unternehmensberatung gerutscht. Er stellte Fragen, die niemand verstand — auch er selbst nicht. Trotzdem nickten alle. Er wurde Shootingstar der Consulting-Welt.</p>
+          <p>Dann: 14 Jahre Amazonas. Philosophische Gespräche mit Papageien. Tanz mit Bäumen und Touristen. Und schliesslich: die Entwicklung der energetischen Standortbestimmung <strong style="color:var(--cream); font-weight:400;">EnKaaSy</strong>.</p>
+          <p>Heute steht Mark zwischen den Dimensionen — und hilft Menschen und Organisationen, genau dort anzufangen: am Anfang.</p>
+        </div>
+        <blockquote class="story-highlight" id="cms-story-quote">„Der Weg ist nicht zwingend das Ziel — und am Prozess wird es auch nicht liegen..."</blockquote>
+        <a class="btn-ghost" href="#angebot">
+          Was bietet er an?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ANGEBOT ── -->
+<section id="angebot">
+  <div class="section-inner">
+    <div class="angebot-intro">
+      <div class="fade-up">
+        <div class="section-eyebrow">Das Angebot</div>
+        <h2 class="section-title">Für jeden <em>Anlass</em><br>das Richtige</h2>
+      </div>
+      <div class="fade-up">
+        <p class="angebot-desc" id="cms-angebot-desc">Ob Geburtstag, Hochzeit, Firmenjubiläum oder Sommerevent — Mark Shaman bringt Unterhaltung, die nachwirkt. Keine Powerpoint. Keine leeren Floskeln. Nur echte Energie und echte Menschen.</p>
+      </div>
+    </div>
+    <div class="angebot-cards fade-up">
+      <div class="angebot-card">
+        <div class="card-num">01</div>
+        <div class="card-label">Private Anlässe</div>
+        <div class="card-title" id="cms-card1-title">Geburtstage & Hochzeiten</div>
+        <div class="card-text" id="cms-card1-text">Ein Tisch, zwei Stühle, freiwillige Teilnehmer — und ein Abend voller Lachen und Staunen. Die perfekte Ergänzung zu jedem besonderen Fest.</div>
+        <div class="card-tags">
+          <span class="card-tag">Geburtstag</span>
+          <span class="card-tag">Hochzeit</span>
+          <span class="card-tag">Jubiläum</span>
+          <span class="card-tag">Taufe</span>
+        </div>
+      </div>
+      <div class="angebot-card featured">
+        <div class="card-num">02</div>
+        <div class="card-label">Firmenanlässe ✦ Beliebt</div>
+        <div class="card-title" id="cms-card2-title">Firmenjubiläum & Events</div>
+        <div class="card-text" id="cms-card2-text">Bühne, Spotlight, Publikum. Ein Event, der Teams verbindet, zum Nachdenken anregt — und dabei garantiert unterhält. Mit oder ohne Flipchart.</div>
+        <div class="card-tags">
+          <span class="card-tag">Firmenjubiläum</span>
+          <span class="card-tag">Sommerevent</span>
+          <span class="card-tag">Kick-off</span>
+          <span class="card-tag">Teambuilding</span>
+        </div>
+      </div>
+      <div class="angebot-card">
+        <div class="card-num">03</div>
+        <div class="card-label">Individuell</div>
+        <div class="card-title" id="cms-card3-title">Irgend etwas dazwischen</div>
+        <div class="card-text" id="cms-card3-text">Nicht alles lässt sich in Schubladen packen. Das Beste oft nicht. Wenn du nicht weisst, was du brauchst — genau dann fang hier an.</div>
+        <div class="card-tags">
+          <span class="card-tag">Massgeschneidert</span>
+          <span class="card-tag">Auf Anfrage</span>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:48px;" class="fade-up">
+      <a class="btn-primary" href="#kontakt">Verfügbarkeit anfragen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ENKASY ── -->
+<section id="enkasy">
+  <div class="section-inner">
+    <div class="enkasy-grid">
+      <div class="enkasy-visual fade-up">
+        <div class="enkasy-circle">
+          <div class="enkasy-center">
+            <div class="enkasy-word" id="cms-enkasy-title">EnKaaSy</div>
+            <div class="enkasy-sub-word" id="cms-enkasy-subtitle">Standort&shy;bestimmung</div>
+          </div>
+          <!-- Orbital dots: centered exactly on circle border -->
+          <div style="position:absolute; top:0; left:50%; transform:translate(-50%,-50%);">
+            <div class="enkasy-dot" id="cms-dot1-el">En</div>
+          </div>
+          <div style="position:absolute; right:0; top:50%; transform:translate(50%,-50%);">
+            <div class="enkasy-dot" id="cms-dot2-el">Ka</div>
+          </div>
+          <div style="position:absolute; bottom:0; left:50%; transform:translate(-50%,50%);">
+            <div class="enkasy-dot" id="cms-dot3-el">Sy</div>
+          </div>
+          <div style="position:absolute; left:0; top:50%; transform:translate(-50%,-50%);">
+            <div class="enkasy-dot" id="cms-dot4-el">a</div>
+          </div>
+        </div>
+      </div>
+      <div class="enkasy-content fade-up">
+        <div class="section-eyebrow">Die Methode</div>
+        <h2 class="section-title" id="cms-enkasy-heading"><em>EnKaaSy</em> —<br>die energetische Standortbestimmung</h2>
+        <p class="enkasy-body" id="cms-enkasy-body">Entwickelt im brasilianischen Amazonas, verfeinert in Berner Konferenzsälen. EnKaaSy ist kein Workshop, kein Coaching und keine Therapie. Es ist ein Spiegel — gehalten mit Augenzwinkern und echter Absicht.</p>
+        <div class="enkasy-cards">
+          <div class="enkasy-card">
+            <div class="enkasy-card-num">1</div>
+            <div class="enkasy-card-text" id="cms-step1"><strong>Wo stehst du?</strong> — Nicht auf der Karriereleiter. Energetisch. Im Raum. Im Moment.</div>
+          </div>
+          <div class="enkasy-card">
+            <div class="enkasy-card-num">2</div>
+            <div class="enkasy-card-text" id="cms-step2"><strong>Was blockiert dich?</strong> — Stichwörter werden vertieft. Freiwillige vor. Erkenntnis folgt.</div>
+          </div>
+          <div class="enkasy-card">
+            <div class="enkasy-card-num">3</div>
+            <div class="enkasy-card-text" id="cms-step3"><strong>Was brauchst du?</strong> — Ein klarer Blick auf das Wesentliche. Ohne Umwege.</div>
+          </div>
+          <div class="enkasy-card">
+            <div class="enkasy-card-num">4</div>
+            <div class="enkasy-card-text" id="cms-step4"><strong>Was kommt danach?</strong> — Ein gutes Gefühl zurück in den Alltag. Alles andere gilt es selber zu erfahren.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── IMPRESSIONEN ── -->
+<section id="impressionen">
+  <div class="section-inner">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px;" class="fade-up">
+      <div>
+        <div class="section-eyebrow">Impressionen</div>
+        <h2 class="section-title">Auf der <em>Bühne</em></h2>
+      </div>
+      <label class="btn-primary" for="gallery-upload-input" style="cursor:pointer;">
+        + Bilder hochladen
+      </label>
+    </div>
+    <input type="file" id="gallery-upload-input" accept="image/*" multiple style="display:none;" onchange="handleGalleryUpload(this.files)">
+
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- Bilder werden hier dynamisch eingefügt -->
+    </div>
+
+    <div class="gallery-upload-zone" id="gallery-drop-zone"
+      onclick="document.getElementById('gallery-upload-input').click()"
+      ondragover="galleryDragOver(event)"
+      ondragleave="galleryDragLeave(event)"
+      ondrop="galleryDrop(event)">
+      <div class="gallery-upload-icon">⬆</div>
+      <div class="gallery-upload-label">Bilder hierher ziehen oder <span>klicken zum Auswählen</span></div>
+      <div class="gallery-upload-hint">JPG, PNG, WEBP · Mehrere Bilder gleichzeitig möglich</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LIGHTBOX ── -->
+<div class="gallery-lightbox" id="gallery-lightbox" onclick="closeLightbox(event)">
+  <button class="gallery-lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="gallery-lightbox-nav gallery-lightbox-prev" onclick="lightboxNav(-1)">‹</button>
+  <img id="lightbox-img" src="" alt="Impression">
+  <button class="gallery-lightbox-nav gallery-lightbox-next" onclick="lightboxNav(1)">›</button>
+</div>
+
+<!-- ── VIDEO ── -->
+<section id="video-section">
+  <div class="section-inner">
+    <div class="section-eyebrow" style="justify-content:center;">Live erleben</div>
+    <h2 class="section-title" style="text-align:center;">La Cappella, Bern<br><em>Februar 2026</em></h2>
+    <div class="video-wrapper">
+      <iframe src="https://www.youtube.com/embed/xHQoPZ-7-Fw" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+      <div class="video-frame"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="section-eyebrow fade-up">Stimmen</div>
+    <h2 class="section-title fade-up">Was andere <em>sagen</em></h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-item fade-up">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text" id="cms-t1-text">Unsere Belegschaft hat gelacht, gestaunt und am nächsten Tag noch geredet. Genau das wollten wir.</p>
+        <div class="testimonial-author" id="cms-t1-author">Sandra M.</div>
+        <div class="testimonial-role" id="cms-t1-role">HR-Leiterin, Technologieunternehmen Bern</div>
+      </div>
+      <div class="testimonial-item fade-up">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text" id="cms-t2-text">Ich dachte, ich wisse, was auf mich zukommt. Ich wusste es garantiert nicht. Zum Glück.</p>
+        <div class="testimonial-author" id="cms-t2-author">Thomas K.</div>
+        <div class="testimonial-role" id="cms-t2-role">Geburtstagsgast, La Cappella 2026</div>
+      </div>
+      <div class="testimonial-item fade-up">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text" id="cms-t3-text">Mark ist der einzige Redner, der ohne Powerpointfolien mehr sagt als alle anderen zusammen.</p>
+        <div class="testimonial-author" id="cms-t3-author">Claudia R.</div>
+        <div class="testimonial-role" id="cms-t3-role">Eventorganisatorin, Zürich</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── KONTAKT ── -->
+<section id="kontakt">
+  <div class="section-inner">
+    <div class="kontakt-grid">
+      <div class="kontakt-info fade-up">
+        <div class="section-eyebrow">Buchung</div>
+        <h2 class="section-title">Bereit für<br><em>das Unerwartete?</em></h2>
+        <p class="kontakt-body" id="cms-kontakt-body">Kein langer Fragebogen. Kein Angebot von der Stange. Nur ein kurzes Gespräch — und dann beginnt etwas, das niemand so schnell vergisst.</p>
+        <div class="kontakt-detail">
+          <div class="kontakt-detail-icon">✦</div>
+          <div>
+            <div class="kontakt-detail-label">Wo</div>
+            <div class="kontakt-detail-text" id="cms-location">Schweizweit · Schwerpunkt Bern & Umgebung</div>
+          </div>
+        </div>
+        <div class="kontakt-detail">
+          <div class="kontakt-detail-icon">✦</div>
+          <div>
+            <div class="kontakt-detail-label">Anlässe</div>
+            <div class="kontakt-detail-text">Private Feste · Firmenevents · Massgeschneidert</div>
+          </div>
+        </div>
+        <div class="kontakt-detail">
+          <div class="kontakt-detail-icon">✦</div>
+          <div>
+            <div class="kontakt-detail-label">Kontakt</div>
+            <div class="kontakt-detail-text" id="cms-email">info@markshaman.ch</div>
+          </div>
+        </div>
+        <div class="kontakt-social">
+          <a class="social-btn" href="https://www.instagram.com/mark__shaman/" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            Instagram
+          </a>
+          <a class="social-btn" href="https://www.youtube.com/channel/UCwwMnyudPoxrcKC7yhQGmKA" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+            YouTube
+          </a>
+        </div>
+      </div>
+      <div class="kontakt-form fade-up">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input class="form-input" type="text" placeholder="Dein Name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-Mail</label>
+          <input class="form-input" type="email" placeholder="deine@email.ch">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Art des Anlasses</label>
+          <select class="form-select">
+            <option value="">Bitte wählen…</option>
+            <option>Geburtstag</option>
+            <option>Hochzeit</option>
+            <option>Firmenjubiläum</option>
+            <option>Sommerevent / Kick-off</option>
+            <option>Anderes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Datum / Zeitraum</label>
+          <input class="form-input" type="text" placeholder="z.B. August 2025">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nachricht</label>
+          <textarea class="form-textarea" placeholder="Erzähl mir von deinem Anlass — Grösse, Ort, was du dir vorstellst…"></textarea>
+        </div>
+        <button class="form-submit" onclick="submitForm(this)">Anfrage absenden</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DATENSCHUTZ ── -->
+<section id="datenschutz" style="display:none;">
+  <div class="section-inner" style="padding-top:120px; padding-bottom:120px; max-width:780px;">
+    <div class="section-eyebrow fade-up">Legal</div>
+    <h1 class="section-title fade-up" style="margin-bottom:48px;">Datenschutz &amp; <em>Copyright</em></h1>
+
+    <div class="legal-block fade-up">
+      <h2 class="legal-heading">Datenschutz und Cookies</h2>
+      <p class="legal-text">Mit dieser Richtlinie informiere ich dich über den Einsatz von Cookies oder ähnlichen Speichertechnologien (nachfolgend „Cookies") auf dieser Website.</p>
+      <p class="legal-text">Cookies sind kleine Textdateien, die vom Webbrowser auf deinem Endgerät zur Speicherung von bestimmten Informationen abgelegt werden. Beim nächsten Aufruf meiner Website mit demselben Endgerät werden die in Cookies gespeicherten Informationen an meine Website zurückgesandt. Hierdurch erhalte ich automatisch bestimmte Daten wie z. B. IP-Adresse, verwendeter Browser, Betriebssystem über deinen Computer und deine Verbindung zum Internet.</p>
+      <p class="legal-text">Cookies, die nicht unbedingt erforderlich sind, um die Dienste auf dieser Website zur Verfügung zu stellen, werden erst nach der Einwilligung verwendet. Indem du diese Website nach dem Einblenden des Cookie-Banners aktiv weiter nutzt, willigst du in die Verwendung von Cookies ein. Du kannst deine Cookie-Einstellungen zudem jederzeit individuell anpassen, indem du zum Beispiel einzelne Cookie-Kategorien aktivierst oder deaktivierst. Bitte beachte dazu die Hilfefunktionen deines Internetbrowsers.</p>
+    </div>
+
+    <div class="legal-block fade-up">
+      <h2 class="legal-heading">Copyright</h2>
+      <p class="legal-text">© Copyright Mark Shaman 2025. Unautorisierte Nutzung von Inhalten oder Teilen der Inhalte ist ohne eine schriftliche Zustimmung des Autors nicht gestattet.</p>
+    </div>
+
+    <div class="fade-up" style="margin-top:48px;">
+      <a class="btn-ghost" href="#" onclick="showMain(); return false;">
+        ← Zurück zur Website
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <a class="footer-logo" href="#">Mark <span>Shaman</span></a>
+    <ul class="footer-links">
+      <li><a href="#story">Geschichte</a></li>
+      <li><a href="#angebot">Angebot</a></li>
+      <li><a href="#enkasy">EnKaaSy</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+      <li><a href="#datenschutz" onclick="showDatenschutz(); return false;">Datenschutz</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Mark Shaman · Alle Rechte vorbehalten</p>
+  </div>
+</footer>
+
+<!-- ── CMS TOGGLE ── -->
+
+
+<script>
+// ── CURSOR ──
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
+(function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+// ── NAV SCROLL ──
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── MOBILE NAV ──
+function toggleDrawer() { document.getElementById('nav-drawer').classList.toggle('open'); }
+function closeDrawer() { document.getElementById('nav-drawer').classList.remove('open'); }
+
+// ── FADE UP ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ── FORM ──
+function submitForm(btn) {
+  btn.textContent = '✓ Anfrage gesendet!';
+  btn.style.background = '#2ecc71';
+  btn.style.color = '#fff';
+  setTimeout(() => { btn.textContent = 'Anfrage absenden'; btn.style.background = ''; btn.style.color = ''; }, 3000);
+}
+
+// ── LOAD CONTENT FROM JSON DATA FILES ──
+async function loadContent() {
+  const files = ['hero','geschichte','angebot','enkasy','testimonials','kontakt'];
+  const data = {};
+  await Promise.all(files.map(async f => {
+    try {
+      const r = await fetch('/_data/' + f + '.json');
+      if (r.ok) Object.assign(data, await r.json());
+    } catch(e) {}
+  }));
+  applyData(data);
+}
+
+function applyData(d) {
+  const map = {
+    'eyebrow':'cms-eyebrow','hero_em':'cms-hero-em','hero_strong':'cms-hero-strong',
+    'hero_sub':'cms-hero-sub','stat1_val':'cms-stat1-val','stat1_label':'cms-stat1-label',
+    'stat2_val':'cms-stat2-val','stat2_label':'cms-stat2-label',
+    'stat3_val':'cms-stat3-val','stat3_label':'cms-stat3-label',
+    'story_body':'cms-story-body','story_quote':'cms-story-quote',
+    'angebot_desc':'cms-angebot-desc',
+    'card1_title':'cms-card1-title','card1_text':'cms-card1-text',
+    'card2_title':'cms-card2-title','card2_text':'cms-card2-text',
+    'card3_title':'cms-card3-title','card3_text':'cms-card3-text',
+    'enkasy_heading':'cms-enkasy-heading','enkasy_title':'cms-enkasy-title',
+    'enkasy_subtitle':'cms-enkasy-subtitle','enkasy_body':'cms-enkasy-body',
+    'dot1':'cms-dot1-el','dot2':'cms-dot2-el','dot3':'cms-dot3-el','dot4':'cms-dot4-el',
+    'step1':'cms-step1','step2':'cms-step2','step3':'cms-step3','step4':'cms-step4',
+    't1_text':'cms-t1-text','t1_author':'cms-t1-author','t1_role':'cms-t1-role',
+    't2_text':'cms-t2-text','t2_author':'cms-t2-author','t2_role':'cms-t2-role',
+    't3_text':'cms-t3-text','t3_author':'cms-t3-author','t3_role':'cms-t3-role',
+    'kontakt_body':'cms-kontakt-body','location':'cms-location','email':'cms-email'
+  };
+  for (const [key, elId] of Object.entries(map)) {
+    if (d[key] !== undefined) {
+      const el = document.getElementById(elId);
+      if (el) el.innerHTML = d[key];
+    }
+  }
+}
+
+loadContent();
+</script>
+</body>
+</html>

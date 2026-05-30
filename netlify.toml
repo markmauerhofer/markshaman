@@ -1,0 +1,21 @@
+[build]
+  publish = "."
+
+# Netlify Identity für CMS-Login
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+
+# JSON Datendateien korrekt ausliefern
+[[headers]]
+  for = "/_data/*"
+  [headers.values]
+    Content-Type = "application/json"
+    Access-Control-Allow-Origin = "*"
+
+[[redirects]]
+  from = "/copyright"
+  to = "/#datenschutz"
+  status = 301
