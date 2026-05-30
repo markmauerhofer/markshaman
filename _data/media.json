@@ -1,4 +1,8 @@
 {
-  "logo": "",
-  "gallery": []
+  "logo": "/images/logotransparentmitname-1-.png",
+  "gallery": [
+    {
+      "image": "/images/dsc01033.jpg"
+    }
+  ]
 }
