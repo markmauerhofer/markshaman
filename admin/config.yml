@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: markmauerhofer/markshaman
+  repo: DEIN-GITHUB-USERNAME/markshaman
   branch: main
 
 media_folder: "images"
@@ -32,7 +32,7 @@ collections:
         label: "Geschichte"
         file: "_data/geschichte.json"
         fields:
-          - { label: "Haupttext", name: "story_body", widget: "markdown" }
+          - { label: "Haupttext", name: "story_body", widget: "text" }
           - { label: "Zitat", name: "story_quote", widget: "text" }
 
       - name: "angebot"
