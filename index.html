@@ -1664,6 +1664,24 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { lb.classList.remove('open'); document.body.style.overflow = ''; }
 });
 
+// ── DATENSCHUTZ PAGE ──
+function showDatenschutz() {
+  ['hero','story','angebot','enkasy','video-section','impressionen','testimonials','kontakt'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('datenschutz').style.display = 'block';
+  window.scrollTo(0,0);
+}
+function showMain() {
+  ['hero','story','angebot','enkasy','video-section','impressionen','testimonials','kontakt'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = '';
+  });
+  document.getElementById('datenschutz').style.display = 'none';
+  window.scrollTo(0,0);
+}
+
 // ── ENKASY DOTS POSITIONING ──
 function positionEnkasyDots() {
   const circle = document.querySelector('.enkasy-circle');
