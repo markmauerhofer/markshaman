@@ -26,7 +26,7 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     font-family: var(--font-body);
@@ -294,7 +294,7 @@
 
   /* ── SECTION SHARED ── */
   section { position: relative; }
-  .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 48px; overflow: visible; }
+  .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 48px; overflow: hidden; width: 100%; box-sizing: border-box; }
   .section-eyebrow {
     font-size: 11px;
     font-weight: 400;
@@ -319,6 +319,7 @@
     font-weight: 300;
     line-height: 1.1;
     color: var(--cream);
+    word-break: break-word;
   }
   .section-title em {
     font-style: italic;
@@ -333,8 +334,9 @@
   .story-grid {
     display: grid;
     grid-template-columns: 5fr 7fr;
-    gap: 48px;
+    gap: 40px;
     align-items: start;
+    overflow: hidden;
   }
   .story-images {
     display: grid;
@@ -357,7 +359,7 @@
   .story-img-main:hover img,
   .story-img-sm:hover img { transform: scale(1.03); filter: grayscale(0%) contrast(1); }
   .story-img-sm { aspect-ratio: 3/4; overflow: hidden; }
-  .story-content { padding-top: 20px; }
+  .story-content { padding-top: 20px; overflow: hidden; word-break: break-word; }
   .story-body {
     font-size: 16px;
     font-weight: 300;
