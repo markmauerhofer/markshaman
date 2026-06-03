@@ -118,7 +118,7 @@
 
   /* ── HERO ── */
   #hero {
-    min-height: 100vh;
+    min-height: 75vh;
     display: grid;
     grid-template-columns: 55fr 45fr;
     position: relative;
@@ -222,10 +222,10 @@
   }
   .hero-stat-val {
     font-family: var(--font-display);
-    font-size: 36px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 400;
     color: var(--cream);
-    line-height: 1;
+    line-height: 1.2;
     margin-bottom: 6px;
   }
   .hero-stat-label {
@@ -239,6 +239,8 @@
   .hero-right {
     position: relative;
     overflow: hidden;
+    max-height: 80vh;
+    align-self: center;
   }
   .hero-right::before {
     content: '';
@@ -258,9 +260,10 @@
   }
   .hero-img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    object-position: bottom center;
     filter: grayscale(20%) contrast(1.05);
   }
   .hero-badge {
@@ -409,8 +412,8 @@
   }
   .angebot-card:hover { border-top-color: var(--gold); background: #1a1a14; }
   .angebot-card.featured {
-    background: rgba(200,164,90,0.08);
-    border-top-color: var(--gold);
+    background: var(--bg3);
+    border-top-color: transparent;
   }
   .card-num {
     font-family: var(--font-display);
@@ -915,9 +918,9 @@
     .hero-stat-label { font-size: 11px; }
 
     .story-grid,
-    .angebot-intro,
     .enkasy-grid,
     .kontakt-grid { grid-template-columns: 1fr; gap: 40px; }
+    .angebot-intro { grid-template-columns: 1fr; gap: 16px; }
     .angebot-cards { grid-template-columns: 1fr; }
     .testimonial-grid { grid-template-columns: 1fr; }
 
@@ -1151,14 +1154,6 @@
       <em id="cms-hero-em">Die etwas andere</em>
       <strong id="cms-hero-strong">Standort&shy;bestimmung</strong>
     </h1>
-    <p class="hero-sub" id="cms-hero-sub">80 % Show. 20 % Empowerment. 100 % Entertainment — für private Feste und Firmenanlässe, die mehr hinterlassen als eine gute Erinnerung.</p>
-    <div class="hero-actions">
-      <a class="btn-primary" href="#kontakt">Jetzt anfragen</a>
-      <a class="btn-ghost" href="#story">
-        Wer ist Mark Shaman?
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2"/></svg>
-      </a>
-    </div>
     <div class="hero-stats">
       <div>
         <div class="hero-stat-val" id="cms-stat1-val" style="font-size:22px; letter-spacing:0.04em;">Das Unerwartete.</div>
@@ -1173,10 +1168,18 @@
         <div class="hero-stat-label" id="cms-stat3-label">Einmal erlebt. Lange nachgedacht.</div>
       </div>
     </div>
+    <p class="hero-sub" id="cms-hero-sub" style="margin-top:28px;">80 % Show. 20 % Empowerment. 100 % Entertainment — für private Feste und Firmenanlässe, die mehr hinterlassen als eine gute Erinnerung.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#kontakt">Jetzt anfragen</a>
+      <a class="btn-ghost" href="#story">
+        Wer ist Mark Shaman?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2"/></svg>
+      </a>
+    </div>
   </div>
   <div class="hero-right">
     <img class="hero-img" src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman auf der Bühne">
-    <div class="hero-badge">Goldene<br>Poker&shy;karte<br>2026</div>
+    <div class="hero-badge">Gewinner<br>Goldene<br>Poker&shy;karte<br>2026</div>
   </div>
 </section>
 
@@ -1246,9 +1249,9 @@
           <span class="card-tag">Taufe</span>
         </div>
       </div>
-      <div class="angebot-card featured">
+      <div class="angebot-card">
         <div class="card-num">02</div>
-        <div class="card-label">Firmenanlässe ✦ Beliebt</div>
+        <div class="card-label">Firmenanlässe</div>
         <div class="card-title" id="cms-card2-title">Firmenjubiläum & Events</div>
         <div class="card-text" id="cms-card2-text">Bühne, Spotlight, Publikum. Ein Event, der Teams verbindet, zum Nachdenken anregt — und dabei garantiert unterhält. Mit oder ohne Flipchart.</div>
         <div class="card-tags">
