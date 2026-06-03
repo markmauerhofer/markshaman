@@ -1,12 +1,12 @@
 {
-  "stat2_val": "20%",
-  "stat3_val": "100%",
-  "eyebrow": "Energie frei für das Unerwartete",
+  "eyebrow": "Bühne frei für das Unerwartete",
   "hero_em": "Die etwas andere",
-  "stat1_label": "Show",
-  "stat2_label": "Empowerment",
-  "stat3_label": "Entertainment",
-  "hero_sub": "80 % Show | 20 % Empowerment | 100 % Entertainment — für private Feste und Firmenanlässe, die mehr hinterlassen als eine gute Erinnerung.",
   "hero_strong": "Standortbestimmung",
-  "stat1_val": "80%"
+  "hero_sub": "80 % Show. 20 % Empowerment. 100 % Entertainment — für private Feste und Firmenanlässe, die mehr hinterlassen als eine gute Erinnerung.",
+  "stat1_val": "Das Unerwartete.",
+  "stat1_label": "Du denkst, du weisst was kommt.",
+  "stat2_val": "Das Persönliche.",
+  "stat2_label": "Er denkt deinen Gedanken — bevor du ihn denkst.",
+  "stat3_val": "Das Nachwirkende.",
+  "stat3_label": "Einmal erlebt. Lange nachgedacht."
 }
