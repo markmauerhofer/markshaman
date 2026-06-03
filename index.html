@@ -33,6 +33,7 @@
     background: var(--bg);
     color: var(--cream);
     overflow-x: hidden;
+  max-width: 100vw;
     cursor: default;
   }
 
@@ -151,7 +152,7 @@
   }
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(48px, 5.5vw, 80px);
+    font-size: clamp(32px, 7vw, 80px);
     font-weight: 300;
     line-height: 1.05;
     color: var(--cream);
@@ -903,10 +904,12 @@
     .nav-hamburger { display: flex; }
 
     #hero { grid-template-columns: 1fr; min-height: auto; }
-    .hero-left { padding: 100px 24px 48px; }
+    .hero-left { padding: 100px 24px 48px; overflow: hidden; max-width: 100%; }
     .hero-right { height: 50vw; min-height: 300px; }
     .hero-right::before { display: none; }
-    .hero-stats { gap: 24px; }
+    .hero-stats { gap: 20px; flex-direction: column; }
+    .hero-stat-val { font-size: 16px !important; }
+    .hero-stat-label { font-size: 11px; }
 
     .story-grid,
     .angebot-intro,
