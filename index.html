@@ -215,26 +215,26 @@
   .btn-ghost:hover svg { transform: translateX(4px); }
 
   .hero-stats {
-    display: flex;
-    gap: 40px;
-    margin-top: 36px;
-    padding-top: 28px;
-    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 20px;
   }
   .hero-stat-val {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 400;
     color: var(--cream);
     line-height: 1.2;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
   .hero-stat-label {
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 300;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--cream30);
+    line-height: 1.7;
+    color: var(--cream60);
+    letter-spacing: 0;
+    text-transform: none;
   }
 
   .hero-right {
@@ -933,9 +933,9 @@
     .hero-right { height: 50vw; min-height: 280px; }
     .hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
     .hero-right::before { display: none; }
-    .hero-stats { gap: 20px; flex-direction: column; }
-    .hero-stat-val { font-size: 16px !important; }
-    .hero-stat-label { font-size: 11px; }
+    .hero-stats { grid-template-columns: 1fr; gap: 2px; }
+    .hero-stat-val { font-size: 16px; }
+    .hero-stat-label { font-size: 13px; }
 
     .story-grid,
     .enkasy-grid,
@@ -1178,15 +1178,15 @@
       <strong id="cms-hero-strong">Standort&shy;bestimmung</strong>
     </h1>
     <div class="hero-stats">
-      <div>
+      <div style="background:rgba(240,236,226,0.04);border:0.5px solid rgba(200,164,90,0.2);border-left:2px solid rgba(200,164,90,0.5);padding:16px 18px;">
         <div class="hero-stat-val" id="cms-stat1-val">Das Unerwartete.</div>
         <div class="hero-stat-label" id="cms-stat1-label">Du denkst, du weisst was kommt.</div>
       </div>
-      <div>
+      <div style="background:rgba(240,236,226,0.04);border:0.5px solid rgba(200,164,90,0.2);border-left:2px solid rgba(200,164,90,0.5);padding:16px 18px;">
         <div class="hero-stat-val" id="cms-stat2-val">Das Persönliche.</div>
-        <div class="hero-stat-label" id="cms-stat2-label">Er denkt deinen Gedanken — bevor du ihn denkst.</div>
+        <div class="hero-stat-label" id="cms-stat2-label">Er kennt deine Antwort. Du kennst die Frage noch nicht.</div>
       </div>
-      <div>
+      <div style="background:rgba(240,236,226,0.04);border:0.5px solid rgba(200,164,90,0.2);border-left:2px solid rgba(200,164,90,0.5);padding:16px 18px;">
         <div class="hero-stat-val" id="cms-stat3-val">Das Nachwirkende.</div>
         <div class="hero-stat-label" id="cms-stat3-label">Einmal erlebt. Lange nachgedacht.</div>
       </div>
