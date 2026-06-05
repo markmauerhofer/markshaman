@@ -123,7 +123,7 @@
   #hero {
     min-height: 100vh;
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 1fr 1fr;
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -133,7 +133,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 120px 32px 60px 48px;
+    padding: 100px 40px 60px 48px;
     position: relative;
     z-index: 2;
   }
@@ -173,12 +173,12 @@
     display: block;
   }
   .hero-sub {
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 300;
-    line-height: 1.9;
+    line-height: 1.8;
     color: rgba(240,236,226,0.75);
-    max-width: 420px;
-    margin: 24px 0 36px;
+    max-width: 480px;
+    margin: 20px 0 32px;
   }
   .hero-actions {
     display: flex;
@@ -241,7 +241,7 @@
   .hero-right {
     position: relative;
     overflow: hidden;
-    min-height: 60vh;
+    min-height: 100%;
   }
   .hero-right::before {
     content: '';
@@ -262,17 +262,18 @@
   .hero-img {
     width: 100%;
     height: 100%;
+    min-height: 400px;
     object-fit: cover;
     object-position: top center;
     filter: grayscale(20%) contrast(1.05);
     position: absolute;
-    top: 0; left: 0;
-    max-height: 90vh;
+    top: 0;
+    left: 0;
   }
   .hero-badge {
     position: absolute;
-    bottom: 40px;
-    left: 40px;
+    bottom: 48px;
+    left: 32px;
     z-index: 5;
     width: 110px;
     height: 110px;
@@ -319,7 +320,7 @@
   }
   .section-title {
     font-family: var(--font-display);
-    font-size: clamp(28px, 3.5vw, 48px);
+    font-size: clamp(32px, 3.5vw, 52px);
     font-weight: 300;
     line-height: 1.1;
     color: var(--cream);
@@ -369,7 +370,7 @@
   .story-img-sm { aspect-ratio: 3/4; overflow: hidden; }
   .story-content { padding-top: 20px; overflow: hidden; word-break: break-word; }
   .story-body {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 300;
     line-height: 1.9;
     color: var(--cream60);
@@ -451,7 +452,7 @@
     line-height: 1.2;
   }
   .card-text {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 300;
     line-height: 1.8;
     color: var(--cream60);
@@ -600,7 +601,7 @@
     margin-bottom: 10px;
   }
   .enkasy-card-text {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 300;
     line-height: 1.75;
     color: var(--cream60);
@@ -613,7 +614,7 @@
     font-size: 14px;
   }
   .enkasy-body {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 300;
     line-height: 1.9;
     color: var(--cream60);
@@ -749,7 +750,7 @@
   }
   .kontakt-info { padding-top: 20px; }
   .kontakt-body {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 300;
     line-height: 1.8;
     color: var(--cream60);
