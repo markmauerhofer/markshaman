@@ -341,9 +341,9 @@
   }
   .story-grid {
     display: grid;
-    grid-template-columns: 5fr 7fr;
-    gap: 40px;
-    align-items: start;
+    grid-template-columns: 2fr 3fr;
+    gap: 48px;
+    align-items: center;
     overflow: hidden;
   }
   .story-images {
@@ -1230,21 +1230,10 @@
     <div class="story-grid">
       <div class="story-images fade-up">
         <div class="story-img-main">
-          <img src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/a076a0b2-c653-4612-8957-04e566c18fea/klim-musalimov-8wQbq0jmiIw-unsplash.jpg" alt="Bühnenauftritt">
+          <img src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/a076a0b2-c653-4612-8957-04e566c18fea/klim-musalimov-8wQbq0jmiIw-unsplash.jpg" alt="Pokerkarten">
         </div>
-        <div class="story-img-sm">
-          <img src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman Portrait">
-        </div>
-        <div class="story-img-sm" style="background: var(--bg2); display: flex; align-items: center; justify-content: center; position:relative; cursor:pointer;" onclick="document.getElementById('story-logo-input').click()" title="Logo hochladen">
-          <input type="file" id="story-logo-input" accept="image/*" style="display:none;" onchange="handleStoryLogoUpload(this)">
-          <div style="text-align:center; padding:20px;" id="story-logo-container">
-            <img id="story-logo-img" src="" alt="Mark Shaman Logo" style="max-width:260px; max-height:210px; display:none; filter:invert(1);">
-            <div id="story-logo-text">
-              <div style="font-family:var(--font-display); font-size:64px; font-weight:600; color:var(--cream);">MS</div>
-              <div style="font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-top:8px;">seit 1973</div>
-            </div>
-            <div id="story-logo-hint" style="position:absolute;bottom:10px;left:0;right:0;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,164,90,0.5);">↑ Logo hochladen</div>
-          </div>
+        <div style="overflow:hidden; max-width:260px; margin:0 auto;">
+          <img src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman Portrait" style="width:100%;height:auto;object-fit:contain;filter:grayscale(10%) contrast(1.05);">
         </div>
       </div>
       <div class="story-content fade-up">
