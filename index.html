@@ -241,39 +241,56 @@
   .hero-right {
     position: relative;
     overflow: hidden;
-    min-height: 100%;
   }
+  /* Fade left edge into bg */
   .hero-right::before {
     content: '';
     position: absolute;
     left: 0; top: 0; bottom: 0;
     width: 80px;
     background: linear-gradient(to right, var(--bg), transparent);
-    z-index: 2;
+    z-index: 4;
   }
+  /* Fade bottom into bg */
   .hero-right::after {
     content: '';
     position: absolute;
     left: 0; right: 0; bottom: 0;
-    height: 200px;
+    height: 120px;
     background: linear-gradient(to top, var(--bg), transparent);
-    z-index: 2;
+    z-index: 4;
   }
-  .hero-img {
+  /* Pokerkarten Hintergrund */
+  .hero-cards-bg {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    min-height: 400px;
     object-fit: cover;
-    object-position: top center;
-    filter: grayscale(20%) contrast(1.05);
+    object-position: center;
+    filter: grayscale(20%) contrast(1.1);
+    opacity: 0.3;
+    z-index: 1;
+  }
+  /* Portrait */
+  .hero-img {
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: 88%;
+    max-height: 88%;
+    object-fit: contain;
+    object-position: bottom center;
+    z-index: 2;
+    filter: contrast(1.05);
   }
   .hero-badge {
     position: absolute;
-    bottom: 48px;
-    left: 32px;
+    bottom: 5%;
+    right: 5%;
+    left: auto;
     z-index: 5;
     width: 110px;
     height: 110px;
@@ -340,10 +357,7 @@
     background: var(--bg2);
   }
   .story-grid {
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    gap: 48px;
-    align-items: center;
+    display: block;
     overflow: hidden;
   }
   .story-images {
@@ -948,8 +962,9 @@
     .hero-left { padding: 90px 20px 32px; }
     .hero-title { font-size: clamp(32px, 8vw, 48px); }
     .hero-sub { font-size: 16px; max-width: 100%; }
-    .hero-right { height: 60vw; min-height: 220px; }
+    .hero-right { height: 55vw; min-height: 200px; }
     .hero-right::before { display: none; }
+    .hero-img { height: 100%; }
     .hero-stats { grid-template-columns: 1fr; gap: 2px; margin-top: 16px; }
     .hero-stat-val { font-size: 16px; }
     .hero-stat-label { font-size: 13px; }
@@ -1219,7 +1234,11 @@
     </div>
   </div>
   <div class="hero-right">
-    <img class="hero-img" src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman auf der Bühne">
+    <!-- Pokerkarten Hintergrund -->
+    <img class="hero-cards-bg" src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/a076a0b2-c653-4612-8957-04e566c18fea/klim-musalimov-8wQbq0jmiIw-unsplash.jpg" alt="">
+    <!-- Portrait -->
+    <img class="hero-img" src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman">
+    <!-- Badge -->
     <div class="hero-badge">Gewinner<br>Goldene<br>Poker&shy;karte<br>2026</div>
   </div>
 </section>
@@ -1228,15 +1247,7 @@
 <section id="story">
   <div class="section-inner">
     <div class="story-grid">
-      <div class="story-images fade-up">
-        <div class="story-img-main">
-          <img src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/a076a0b2-c653-4612-8957-04e566c18fea/klim-musalimov-8wQbq0jmiIw-unsplash.jpg" alt="Pokerkarten">
-        </div>
-        <div style="overflow:hidden; max-width:260px; margin:0 auto;">
-          <img src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman Portrait" style="width:100%;height:auto;object-fit:contain;filter:grayscale(10%) contrast(1.05);">
-        </div>
-      </div>
-      <div class="story-content fade-up">
+      <div class="story-content fade-up" style="grid-column: span 2; max-width: 720px;">
         <div class="section-eyebrow">Die Geschichte</div>
         <h2 class="section-title">Vom <em>Asphalt&shy;flüsterer</em> zum tanzenden Regenwald</h2>
         <div class="story-body" id="cms-story-body">
