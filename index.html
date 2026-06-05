@@ -122,8 +122,9 @@
   /* ── HERO ── */
   #hero {
     min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -133,9 +134,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 100px 40px 60px 48px;
+    padding: 80px 48px 40px;
     position: relative;
     z-index: 2;
+    width: 100%;
   }
   .hero-eyebrow {
     font-size: 11px;
@@ -241,22 +243,24 @@
   .hero-right {
     position: relative;
     overflow: hidden;
+    height: 45vh;
+    width: 100%;
+    flex-shrink: 0;
   }
   /* Fade left edge into bg */
   .hero-right::before {
     content: '';
     position: absolute;
     left: 0; top: 0; bottom: 0;
-    width: 80px;
+    width: 120px;
     background: linear-gradient(to right, var(--bg), transparent);
     z-index: 4;
   }
-  /* Fade bottom into bg */
   .hero-right::after {
     content: '';
     position: absolute;
     left: 0; right: 0; bottom: 0;
-    height: 120px;
+    height: 80px;
     background: linear-gradient(to top, var(--bg), transparent);
     z-index: 4;
   }
@@ -957,7 +961,7 @@
     .hero-left { padding: 90px 20px 24px; }
     .hero-title { font-size: clamp(32px, 8vw, 48px); }
     .hero-sub { font-size: 16px; max-width: 100%; }
-    .hero-right { height: 80vw; min-height: 300px; position: relative; display: block; overflow: hidden; }
+    .hero-right { height: 60vw; min-height: 250px; }
     .hero-right::before { display: none; }
     .hero-right::after { height: 60px; }
     .hero-cards-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.85; filter: grayscale(0%) contrast(1.1) brightness(0.9); }
@@ -1207,6 +1211,13 @@
       <em id="cms-hero-em">Die etwas andere</em>
       <strong id="cms-hero-strong">Standort&shy;bestimmung</strong>
     </h1>
+  </div>
+  <div class="hero-right">
+    <img class="hero-cards-bg" src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/a076a0b2-c653-4612-8957-04e566c18fea/klim-musalimov-8wQbq0jmiIw-unsplash.jpg" alt="">
+    <img class="hero-img" src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman">
+    <div class="hero-badge">Gewinner<br>Goldene<br>Poker&shy;karte<br>2026</div>
+  </div>
+  <div class="hero-left" style="padding-top:24px;">
     <div class="hero-stats">
       <div style="background:rgba(240,236,226,0.04);border:0.5px solid rgba(200,164,90,0.2);border-left:2px solid rgba(200,164,90,0.5);padding:16px 18px;">
         <div class="hero-stat-val" id="cms-stat1-val">Das Unerwartete.</div>
@@ -1230,14 +1241,7 @@
       </a>
     </div>
   </div>
-  <div class="hero-right">
-    <!-- Pokerkarten Hintergrund -->
-    <img class="hero-cards-bg" src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/a076a0b2-c653-4612-8957-04e566c18fea/klim-musalimov-8wQbq0jmiIw-unsplash.jpg" alt="">
-    <!-- Portrait -->
-    <img class="hero-img" src="https://images.squarespace-cdn.com/content/v1/68989d5f3553972f3a7ed975/92f25509-7ef5-4f88-9031-27b3ccd1e096/MarkShamanNeuesOutfit.png" alt="Mark Shaman">
-    <!-- Badge -->
-    <div class="hero-badge">Gewinner<br>Goldene<br>Poker&shy;karte<br>2026</div>
-  </div>
+
 </section>
 
 <!-- ── STORY ── -->
