@@ -26,7 +26,8 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html, body { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+  html { scroll-behavior: smooth; }
+  body { overflow-x: hidden; width: 100%; max-width: 100%; }
 
   body {
     font-family: var(--font-body);
@@ -63,7 +64,7 @@
 
   /* ── NAV ── */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; width: 100%; box-sizing: border-box;
+    position: fixed; top: 0; left: 0; right: 0; width: 100%; box-sizing: border-box; overflow: hidden;
     z-index: 100;
     display: flex;
     align-items: center;
@@ -931,8 +932,8 @@
     .nav-cta { display: none; }
     .nav-hamburger { display: flex; }
 
-    #hero { grid-template-columns: 1fr; min-height: auto; }
-    .hero-left { padding: 100px 24px 48px; overflow: hidden; max-width: 100%; }
+    #hero { grid-template-columns: 1fr; min-height: auto; width: 100%; overflow: hidden; }
+    .hero-left { padding: 100px 16px 32px; overflow: hidden; max-width: 100%; box-sizing: border-box; }
     .hero-right { height: 50vw; min-height: 200px; }
     .hero-right::before { display: none; }
     .hero-stats { grid-template-columns: 1fr; gap: 2px; }
@@ -943,14 +944,14 @@
     .enkasy-grid,
     .kontakt-grid { grid-template-columns: 1fr; gap: 40px; }
     .angebot-intro { grid-template-columns: 1fr; gap: 16px; }
-    .angebot-cards { grid-template-columns: 1fr; }
-    .testimonial-grid { grid-template-columns: 1fr; }
+    .angebot-cards { grid-template-columns: 1fr; width: 100%; }
+    .testimonial-grid { grid-template-columns: 1fr; width: 100%; }
 
-    .section-inner { padding: 0 20px; }
+    .section-inner { padding: 0 16px; max-width: 100%; }
     #story, #angebot, #enkasy, #kontakt, #impressionen, #energy-boost, #testimonials, #video-section { padding: 20px 0; }
 
-    .enkasy-circle { width: 260px; height: 260px; }
-    .enkasy-word { font-size: 38px; }
+    .enkasy-circle { width: min(260px, 70vw); height: min(260px, 70vw); }
+    .enkasy-word { font-size: min(38px, 8vw); }
 
     #cms-panel { width: 100vw; right: -100vw; }
     .legal-block {
