@@ -240,6 +240,7 @@
   .hero-right {
     position: relative;
     overflow: hidden;
+    min-height: 60vh;
   }
   .hero-right::before {
     content: '';
@@ -265,6 +266,7 @@
     filter: grayscale(20%) contrast(1.05);
     position: absolute;
     top: 0; left: 0;
+    max-height: 90vh;
   }
   .hero-badge {
     position: absolute;
@@ -351,6 +353,7 @@
     grid-column: span 2;
     aspect-ratio: 16/9;
     overflow: hidden;
+    width: 100%;
   }
   .story-img-main img,
   .story-img-sm img {
@@ -656,7 +659,7 @@
   }
   .video-wrapper {
     position: relative;
-    max-width: 480px;
+    max-width: min(480px, 80vw);
     margin: 48px auto 0;
     aspect-ratio: 9/16;
     background: var(--bg3);
@@ -930,8 +933,7 @@
 
     #hero { grid-template-columns: 1fr; min-height: auto; }
     .hero-left { padding: 100px 24px 48px; overflow: hidden; max-width: 100%; }
-    .hero-right { height: 50vw; min-height: 280px; }
-    .hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .hero-right { height: 50vw; min-height: 200px; }
     .hero-right::before { display: none; }
     .hero-stats { grid-template-columns: 1fr; gap: 2px; }
     .hero-stat-val { font-size: 16px; }
@@ -1028,6 +1030,7 @@
     overflow: hidden;
     background: var(--bg3);
     cursor: pointer;
+    width: 100%;
   }
   .gallery-item.wide { grid-column: span 2; aspect-ratio: 16/7; }
   .gallery-item.tall { grid-row: span 2; aspect-ratio: auto; }
