@@ -709,21 +709,16 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
-    margin-top: 56px;
+    margin-top: 20px;
   }
   .testimonial-item {
     background: var(--bg3);
-    padding: 40px 32px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
-  .testimonial-quote {
-    font-family: var(--font-display);
-    font-size: 48px;
-    font-weight: 300;
-    color: var(--gold);
-    line-height: 0.8;
-    margin-bottom: 16px;
-    opacity: 0.4;
-  }
+  .testimonial-quote { display: none; }
   .testimonial-text {
     font-family: var(--font-display);
     font-size: 18px;
@@ -1425,19 +1420,16 @@
     <h2 class="section-title fade-up">Was andere <em>sagen</em></h2>
     <div class="testimonial-grid">
       <div class="testimonial-item fade-up">
-        <div class="testimonial-quote">"</div>
         <p class="testimonial-text" id="cms-t1-text">Unsere Belegschaft hat gelacht, gestaunt und am nächsten Tag noch geredet. Genau das wollten wir.</p>
         <div class="testimonial-author" id="cms-t1-author">Sandra M.</div>
         <div class="testimonial-role" id="cms-t1-role">HR-Leiterin, Technologieunternehmen Bern</div>
       </div>
       <div class="testimonial-item fade-up">
-        <div class="testimonial-quote">"</div>
         <p class="testimonial-text" id="cms-t2-text">Ich dachte, ich wisse, was auf mich zukommt. Ich wusste es garantiert nicht. Zum Glück.</p>
         <div class="testimonial-author" id="cms-t2-author">Thomas K.</div>
         <div class="testimonial-role" id="cms-t2-role">Geburtstagsgast, La Cappella 2026</div>
       </div>
       <div class="testimonial-item fade-up">
-        <div class="testimonial-quote">"</div>
         <p class="testimonial-text" id="cms-t3-text">Mark ist der einzige Redner, der ohne Powerpointfolien mehr sagt als alle anderen zusammen.</p>
         <div class="testimonial-author" id="cms-t3-author">Claudia R.</div>
         <div class="testimonial-role" id="cms-t3-role">Eventorganisatorin, Zürich</div>
