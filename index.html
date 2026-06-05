@@ -272,15 +272,17 @@
     opacity: 0.85;
     z-index: 1;
   }
-  /* Portrait - left side, cards visible right */
+  /* Portrait */
   .hero-img {
     position: absolute;
     bottom: 0;
-    left: 0;
-    width: 55%;
-    height: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: 88%;
+    max-height: 88%;
     object-fit: contain;
-    object-position: bottom left;
+    object-position: bottom center;
     z-index: 2;
     filter: contrast(1.05);
   }
